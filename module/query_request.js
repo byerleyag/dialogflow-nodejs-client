@@ -76,13 +76,16 @@ QueryRequest.prototype._requestOptions = function() {
 
     var path = 'query';
 
-    if (self.hasOwnProperty("version")) {
+/*     if (self.hasOwnProperty("version")) {
         path += '?v=' + self.version;
-    }
+    } */
 
     var request_options = QueryRequest.super_.prototype._requestOptions.apply(this, arguments);
-
-    request_options.path = self.endpoint + path;
+    
+    if (!request_options.path){
+        request_options.path = self.endpoint;
+    }
+    
     request_options.method = 'POST';
 
     return request_options;

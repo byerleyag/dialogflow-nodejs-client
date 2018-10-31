@@ -116,7 +116,7 @@ function Application (clientAccessToken, options) {
 
     self.hostname = options.hostname || hostname;
     self.version = options.version || version;
-
+    self.port = options.port || PORT;
     self.endpoint = options.endpoint || endpoint;
     self.requestSource = options.requestSource || defaultSource;
 
@@ -195,6 +195,8 @@ Application.prototype.textRequest = function(query, options) {
     if (!('version' in opt)) {
         opt.version = self.version;
     }
+
+    self.query = query;
 
     return new TextRequest(self, query, opt);
 };

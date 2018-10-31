@@ -31,9 +31,10 @@ function Request (application, options) {
     self.clientAccessToken = application.clientAccessToken;
 
     self.hostname = application.hostname;
-
+    self.query = application.query;
     self.endpoint = options.endpoint;
     self.requestSource = application.requestSource;
+    self.port = application.port
 
     var _http = application.secure ? https : http;
 
@@ -69,10 +70,27 @@ Request.prototype._headers = function() {
 Request.prototype._requestOptions = function() {
     var self = this;
 
-    return {
+    let requestOptions = {
         hostname: self.hostname,
-        headers: self._headers(),
-    };
+        headers: self._headers()
+    }
+
+    if (self.port){
+        requestOptions.port = self.port
+    }
+
+    if (self.endpoint || self.path){
+        requestOptions.path = self.endpoint || self.path
+    }
+
+    if (self.query){
+        requestOptions.body = {
+            query: self.query
+        }
+    }
+
+
+    return requestOptions
 };
 
 Request.prototype.write = function(chunk) {
